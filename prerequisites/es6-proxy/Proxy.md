@@ -33,6 +33,13 @@ console.log(obj.a) // 5
 - ownKeys(target) 用于获取对象自有的属性
 - getPrototypeOf 类似于Object.getPrototypeOf()
 
+其中get、set比较常用，参数说明：
+
+- target 目标对象
+- key 属性名
+- receiver Proxy实例本身
+- value 属性对应的值
+
 ###  用法
 
 ```js
@@ -76,4 +83,13 @@ let objProxy = new Proxy(obj, {
 
 
 只有调用到set才会更改源对象属性，这样就可以设置校验，不满足就提示错误
+
+### 应用场景
+
+- 处理日志记录
+- 数据校验，包括私有属性、数据格式
+- 计算属性
+- 分析&性能度量
+- 自动填充对象属性来避免null异常
+- 包装宿主对象（e.g. DOM用于减少浏览器的不兼容性？
 
