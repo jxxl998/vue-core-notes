@@ -12,6 +12,10 @@ let objProxy = new Proxy(obj, {
   },
 });
 
+console.log('test');
+console.log(obj.a); // 1
+console.log(objProxy.a); // 10
+
 let objProxyUsingReflect = new Proxy(obj, {
   get(target, key, receiver) {
     return Reflect.get(target, key, receiver);
