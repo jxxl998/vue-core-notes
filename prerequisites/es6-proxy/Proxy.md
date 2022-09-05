@@ -21,7 +21,7 @@ console.log(obj.a) // 5
 
 默认对代理的操作可以反应到源对象中，即修改代理的属性也会修改源对象的属性
 
-在Proxy中可以定义一系列拦截对对象操作的方法，成为陷阱（traps），几乎所有对象的操作都可以拦截
+在Proxy中可以定义一系列拦截对对象操作的方法，成为陷阱或着捕获器（trap），几乎所有对象的操作都可以拦截
 
 拦截方法：
 
@@ -36,7 +36,7 @@ console.log(obj.a) // 5
 其中get、set比较常用，参数说明：
 
 - target 目标对象
-- key 属性名
+- key 属性名，或者说property
 - receiver Proxy实例本身
 - value 属性对应的值
 
@@ -62,11 +62,35 @@ let objProxy = new Proxy(obj, {
 console.log(objProxy.a)	// 测试访问
 ```
 
-在除了使用target对象的.或者[]访问源对象属性值，还可以使用Reflect工具类来实现对源对象的访问及操作来传递给源对象
+在除了使用target对象的.或者[]访问源对象属性值，如proxy[key]、proxy.key、Object.create(proxy)[key]等，还可以使用Reflect工具类来实现对源对象的访问及操作来传递给源对象
 
-Reflect类提供了一组和Proxy具有**一样**的函数签名的方法，即对象方法操作的函数形式
+#### Reflect
 
-. 或者 []即调用中括号方式访问对象属性，即调用get方法，同名同参
+Reflect类提供了一组和Proxy具有**一样**的函数签名的方法，且具有与被拦截方法相同的行为
+
+. 或者 []即调用中括号方式访问对象属性，即调用get方法，同名同参，因此使用Reflect API可以定义空代理对象
+
+```js
+const target = {
+	foo: 'bar'
+}
+
+const handler = {
+  get() {
+    return Reflect.get(...arguments)
+  }
+}
+
+// 简洁写法
+const handler = {
+	get: Reflect.get
+}
+
+const proxy = new Proxy(target, handler)
+
+```
+
+
 
 ```js
 let objProxy = new Proxy(obj, {
