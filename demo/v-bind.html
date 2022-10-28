@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DefineProperty Demo</title>
+  </head>
+  <body>
+    <!-- 输入框和按钮 -->
+    <div>
+      <input type="text" id="input" />
+      <button onclick="vm.text = 'Hello World'">设置为Hello World</button>
+    </div>
+    
+    <!-- 文本展示 -->
+    <div id="output"></div>
+
+    <script>
+      // 定义一个响应式数据
+      const vm = {};
+
+      Object.defineProperty(vm, 'text', {
+        set(value) {
+          document.querySelector('#input').value = value;
+          document.querySelector('#output').innerText = value;
+        },
+      });
+
+      // 处理输入行为
+      document.querySelector('#input').oninput = function (e) {
+        vm.text = e.target.value;
+      };
+    </script>
+  </body>
+</html>
